@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Direct Messaging</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="ChatApp" ng-controller="ChatController">
+    <div class="wrapper">
+        <div class="container">
+            <div class="left">
+                <div class="top">
+                    <input ng-model="userFilter" type="text" />
+                </div>
+                <ul class="people">
+                    <li
+                    ng-click="changeActiveResponder(userItem)"
+                    class="person"
+                    ng-class="activeReceiver==userItem.username?'active':''"
+                    data-chat="{{userItem.username}}"
+                    ng-repeat="userItem in users | filter:userFilter"
+                    ng-if="userItem.username != user"
+                    >
+                        <img ng-src="images/default.png" alt="" />
+                        <span class="name">{{userItem.username}}</span>
+                    </li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <div class="top"><span>From: <span class="name">{{user}}</span></span> &nbsp; <span>To: <span class="name">{{receiver}}</span></span></div>
+                    <div class="chat" data-chat="person1">
+                        <div class="bubble-wrap">
+                            <div class="bubble {{message.From == user?'me':'you'}}" ng-repeat="message in messages">
+                                {{message.Body}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="write">
+                        <input type="text" ng-model="newMessage" ng-keyup="$event.keyCode == 13 && Send() " />
+                        <a href="javascript:;" ng-click="Send()" class="write-link send"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src='components/jquery/dist/jquery.min.js'></script>
+        <script src="js/index.js"></script>
+
+        <script src="components/angular/angular.min.js"></script>
+        <script src="components/angular-resource/angular-resource.min.js"></script>
+        <script src="components/angular-route/angular-route.min.js"></script>
+
+        <script src="js/controllers.js"></script>
+        <script src="js/factories.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+    </html>
