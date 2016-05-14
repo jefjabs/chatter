@@ -56,7 +56,7 @@ func MessageHandler(w http.ResponseWriter, r *http.Request) {
 				messagesBucket.ForEach(func(k, v []byte) error {
 					var messageItem message
 					json.Unmarshal(v, &messageItem)
-					if messageItem.Name == receiver || messageItem.Name == key {
+					if (messageItem.Name == receiver && messageItem.From == key) || (messageItem.Name == key && messageItem.From == receiver) {
 						jsonStr += string(v)
 						jsonStr += ","
 					}
@@ -89,9 +89,11 @@ func MessageHandler(w http.ResponseWriter, r *http.Request) {
 				data := string(b[:])
 
 				messagesBucket, _ := tx.CreateBucketIfNotExists([]byte(key))
-				messagesBucketOwn, _ := tx.CreateBucketIfNotExists([]byte(m.From))
 				messagesBucket.Put([]byte(m.Time), []byte(data))
+
+				messagesBucketOwn, _ := tx.CreateBucketIfNotExists([]byte(m.From))
 				messagesBucketOwn.Put([]byte(m.Time), []byte(data))
+
 				io.WriteString(w, "Success")
 				return nil
 			})
