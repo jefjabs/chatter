@@ -27,14 +27,16 @@ or
 go run main.go api.go
 
 
-Implemented Features:
-Must have features:
+Implemented Features
+
+**Must have features:**
 - Data on server is stored in memory
 - Messages appear in chronological order (Template: 2016-01-01 10:02:15 John: Hi there!)
 - Chat supports multiple users
 - Correct work at least in one web browser
 - Minimum possible delay between sending the message and its appearance to other chat users
-Should have features (implement at least few of them):
+
+**Should have features (implement at least few of them):**
 - ~~Session recovery and display of missed messages after the unavailability of the Internet hannel~~
 - Unique nicknames
 - ~~Rich-message formatting, auto detection of urls~~
@@ -45,7 +47,8 @@ Should have features (implement at least few of them):
 - ~~Show the warning if the server is currently unavailable~~
 - ~~Support of users time zone when show messages of other chat participants~~
 - The design of communication protocol between client and server allows to easily writing of client in another programming language.
-Could have features (if the project will be so exciting for you):
+
+**Could have features (if the project will be so exciting for you):**
 - ~~Protection against XSS~~
 - ~~Flood-filter (limit frequency of messages via IP, for example)~~
 - Support for all modern browsers
