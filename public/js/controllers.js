@@ -9,7 +9,7 @@ function ChatController($rootScope, $scope, Users, Messages, $cookies){
     $scope.activeReceiver = "";
     $scope.messages = Messages.query({id:$scope.user+"-"+$scope.receiver});
 
-    var ws = new WebSocket("ws://localhost:8080/updates/"+$scope.user);
+    var ws = new WebSocket("ws://jefjabs.com:8080/updates/"+$scope.user);
     ws.onopen = function(){
         console.log("Socket has been opened!");
         ws.send(1);
@@ -26,6 +26,11 @@ function ChatController($rootScope, $scope, Users, Messages, $cookies){
             }
         );
     };
+
+    $scope.getDate = function(time){
+            sentDate = new Date(parseInt(time,10));
+            return sentDate.getFullYear()+"-"+sentDate.getMonth()+"-"+sentDate.getDate()+" "+sentDate.getHours()+":"+sentDate.getMinutes()+":"+sentDate.getSeconds();
+    }
 
 
     $scope.Send = function(){

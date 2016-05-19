@@ -33,6 +33,8 @@
                         <div class="bubble-wrap">
                             <div class="bubble {{message.From == user?'me':'you'}}" ng-repeat="message in messages">
                                 {{message.Body}}
+                            </br>
+                            <i style="font-size:8pt">{{getDate(message.Time)}}</i>
                             </div>
                         </div>
                     </div>
