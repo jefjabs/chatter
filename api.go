@@ -5,7 +5,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/boltdb/bolt"
 	"github.com/gorilla/mux"
@@ -35,7 +37,7 @@ func MessageHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	key := vars["key"]
-	db, err := bolt.Open("messages.db", 0600, nil)
+	db, err := bolt.Open("messages.db", 0777, nil)
 
 	switch r.Method {
 	case "GET":
@@ -107,7 +109,7 @@ func UsersHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	key := vars["key"]
-	db, _ := bolt.Open("messages.db", 0600, nil)
+	db, _ := bolt.Open("messages.db", 0777, nil)
 
 	if key == "" {
 		io.WriteString(w, key)
@@ -155,20 +157,32 @@ func UsersHandler(w http.ResponseWriter, r *http.Request) {
 //UpdatesHandler listens to new messages and notify the frontend using websockets
 func UpdatesHandler(w http.ResponseWriter, r *http.Request) {
 
-	//vars := mux.Vars(r)
-	//key := vars["key"]
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
-		return
-	}
+	vars := mux.Vars(r)
+	key := vars["key"]
+	conn, _ := upgrader.Upgrade(w, r, nil)
+	messageType, _, _ := conn.ReadMessage()
+	initialCount := 0
+
 	for {
-		messageType, _, err := conn.ReadMessage()
-		if err != nil {
-			return
-		}
-		if err = conn.WriteMessage(messageType, []byte("Hello There!")); err != nil {
-			return
-		}
+
+		db, _ := bolt.Open("messages.db", 0777, nil)
+		db.View(func(tx *bolt.Tx) error {
+
+			count := 0
+			messageBucket := tx.Bucket([]byte(key))
+			messageBucket.ForEach(func(k, v []byte) error {
+				count++
+				return nil
+			})
+
+			if initialCount != count {
+				conn.WriteMessage(messageType, []byte(strconv.Itoa(initialCount)))
+				initialCount = count
+			}
+			return nil
+		})
+		db.Close()
+
+		time.Sleep(100 * time.Millisecond)
 	}
 }

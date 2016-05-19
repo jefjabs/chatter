@@ -1,34 +1,40 @@
-function ChatController($rootScope, $scope, Users, Messages){
+function ChatController($rootScope, $scope, Users, Messages, $cookies){
     $scope.users = Users.query();
-    $scope.user = prompt("Please enter your username");
+    username = $cookies.get("username");
+    $scope.user = (username == "" || username == undefined)?prompt("Please enter your username"):username;
+    $cookies.put("username",$scope.user);
     Users.query({id:$scope.user});
     $scope.receiver = "";
     $scope.newMessage = "";
     $scope.activeReceiver = "";
     $scope.messages = Messages.query({id:$scope.user+"-"+$scope.receiver});
 
-    var ws = new WebSocket("ws://localhost:8080/updates/jeff");
+    var ws = new WebSocket("ws://localhost:8080/updates/"+$scope.user);
     ws.onopen = function(){
         console.log("Socket has been opened!");
+        ws.send(1);
     };
 
     ws.onmessage = function(message) {
-        console.log(message);
-    };
-
-    $scope.Send = function(){
-        newMessage = new Messages({id:$scope.receiver,From:$scope.user,Name:$scope.receiver,Body:$scope.newMessage,Time:Date.now().toString()});
-        newMessage.$save();
         $scope.messages = Messages.query(
             {id:$scope.user+"-"+$scope.receiver},
             function(){
-                $('.bubble-wrap').scrollTop($('.bubble-wrap').height()*2.5);
+                setTimeout(function(){
+                    $('.bubble-wrap').scrollTop($('.bubble-wrap').height()*2.5);
+                },400);
             }
         );
+        //console.log(message);
+    };
+
+
+    $scope.Send = function(){
+        if($scope.newMessage==""){
+            return;
+        }
+        newMessage = new Messages({id:$scope.receiver,From:$scope.user,Name:$scope.receiver,Body:$scope.newMessage,Time:Date.now().toString()});
+        newMessage.$save();
         $scope.newMessage = "";
-        setTimeout(function(){
-            $('.bubble-wrap').scrollTop($('.bubble-wrap').height()*2.5);
-        },400);
     }
 
     $scope.changeActiveResponder = function(user){

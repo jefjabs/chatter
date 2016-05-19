@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="write">
-                        <input type="text" ng-model="newMessage" ng-keyup="$event.keyCode == 13 && Send() " />
+                        <input type="text" ng-model="newMessage" ng-disabled="receiver==''" ng-keyup="$event.keyCode == 13 && Send() " />
                         <a href="javascript:;" ng-click="Send()" class="write-link send"></a>
                     </div>
                 </div>
@@ -50,6 +50,7 @@
         <script src="components/angular/angular.min.js"></script>
         <script src="components/angular-resource/angular-resource.min.js"></script>
         <script src="components/angular-route/angular-route.min.js"></script>
+        <script src="components/angular-cookies/angular-cookies.min.js"></script>
 
         <script src="js/controllers.js"></script>
         <script src="js/factories.js"></script>
