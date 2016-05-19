@@ -20,11 +20,15 @@ Possible issues encountered in this source code :
 - Prone to DDoS and message spamming, data filters and validations are not yet implemented in this app.
 
 Building the app
+```
 go build main.go api.go
 ./main
+```
 
 or
+```
 go run main.go api.go
+```
 
 
 Implemented Features
