@@ -101,7 +101,7 @@ func MessageHandler(w http.ResponseWriter, r *http.Request) {
 			})
 		}
 	}
-	defer db.Close()
+	db.Close()
 }
 
 //UsersHandler will be handling the creation and listing of users
@@ -151,12 +151,11 @@ func UsersHandler(w http.ResponseWriter, r *http.Request) {
 			return nil
 		})
 	}
-	defer db.Close()
+	db.Close()
 }
 
 //UpdatesHandler listens to new messages and notify the frontend using websockets
 func UpdatesHandler(w http.ResponseWriter, r *http.Request) {
-
 	vars := mux.Vars(r)
 	key := vars["key"]
 	conn, _ := upgrader.Upgrade(w, r, nil)
@@ -165,11 +164,15 @@ func UpdatesHandler(w http.ResponseWriter, r *http.Request) {
 
 	for {
 
-		db, _ := bolt.Open("messages.db", 0777, nil)
-		db.View(func(tx *bolt.Tx) error {
-
+		db, boltErr := bolt.Open("messages.db", 0777, nil)
+		if boltErr != nil {
+			conn.WriteMessage(messageType, []byte("Error on connecting bolt"))
+			db.Close()
+			continue
+		}
+		db.Batch(func(tx *bolt.Tx) error {
 			count := 0
-			messageBucket := tx.Bucket([]byte(key))
+			messageBucket, _ := tx.CreateBucketIfNotExists([]byte(key))
 			messageBucket.ForEach(func(k, v []byte) error {
 				count++
 				return nil
@@ -183,6 +186,6 @@ func UpdatesHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		db.Close()
 
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(2000 * time.Millisecond)
 	}
 }

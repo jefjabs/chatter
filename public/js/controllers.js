@@ -3,7 +3,7 @@ function ChatController($rootScope, $scope, Users, Messages, $cookies){
     username = $cookies.get("username");
     $scope.user = (username == "" || username == undefined)?prompt("Please enter your username"):username;
     $cookies.put("username",$scope.user);
-    Users.query({id:$scope.user});
+    Users.query({id:$scope.user}); // this will create new users
     $scope.receiver = "";
     $scope.newMessage = "";
     $scope.activeReceiver = "";
@@ -16,6 +16,7 @@ function ChatController($rootScope, $scope, Users, Messages, $cookies){
     };
 
     ws.onmessage = function(message) {
+        $scope.users = Users.query();
         $scope.messages = Messages.query(
             {id:$scope.user+"-"+$scope.receiver},
             function(){
@@ -24,7 +25,6 @@ function ChatController($rootScope, $scope, Users, Messages, $cookies){
                 },400);
             }
         );
-        //console.log(message);
     };
 
 
