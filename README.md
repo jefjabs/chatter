@@ -30,8 +30,9 @@ or
 go run main.go api.go
 ```
 
+Please check http://jefjabs.com:8080 for the sample implementation
 
-Implemented Features
+**Implemented Features**
 
 **Must have features:**
 - Data on server is stored in memory
