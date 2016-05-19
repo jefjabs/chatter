@@ -25,3 +25,35 @@ go build main.go api.go
 
 or
 go run main.go api.go
+
+
+Implemented Features:
+    Must have features:
+        - Data on server is stored in memory
+        - Messages appear in chronological order (Template: 2016-01-01 10:02:15 John: Hi there!)
+        - Chat supports multiple users
+        - Correct work at least in one web browser
+        - Minimum possible delay between sending the message and its appearance to other chat users
+    Should have features (implement at least few of them):
+        - ~~Session recovery and display of missed messages after the unavailability of the Internet channel~~
+        - Unique nicknames
+        - ~~Rich-message formatting, auto detection of urls~~
+        - The list of chat participants, insert nick in a message by clicking on him (as a form of address)
+        - Ability to logout from the chat
+        - Simple design with CSS
+        - Auto-scroll the message window
+        - ~~Show the warning if the server is currently unavailable~~
+        - ~~Support of users time zone when show messages of other chat participants~~
+        - The design of communication protocol between client and server allows to easily writing of client in another programming language.
+        Could have features (if the project will be so exciting for you):
+    Could Have Feature:
+        - ~~Protection against XSS~~
+        - ~~Flood-filter (limit frequency of messages via IP, for example)~~
+        - Support for all modern browsers
+        - Save nick, ~~settings, themes, ...~~
+        - ~~Display settings in the form of presets (colors, frames, ...)~~
+        - ~~Simple commands (like --logout, --change-nick --kick)~~
+        - ~~User moderator (able to do --kick)~~
+        - ~~Sound or a graphical alert when nick mentioned in the chat~~
+        - The ability to communicate under different nicknames in two tabs of the same browser
+        - ~~Transfer of files (drag-n-drop in the browser, link to the file appears in the message window)~~
