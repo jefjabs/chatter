@@ -66,9 +66,14 @@ Please check http://jefjabs.com:8080 for the sample implementation
 - ~~Transfer of files (drag-n-drop in the browser, link to the file appears in the message window)~~
 
 
-Updates:
-To generate private key:
-openssl genrsa -out server.key 2048
+**Updates**
 
-To generate certificate:
+**To generate private key**
+```
+openssl genrsa -out server.key 2048
+```
+
+**To generate certificate**
+```
 openssl req -new -x509 -key server.key -out server.pem -days 3650
+```
