@@ -64,3 +64,11 @@ Please check http://jefjabs.com:8080 for the sample implementation
 - ~~Sound or a graphical alert when nick mentioned in the chat~~
 - The ability to communicate under different nicknames in two tabs of the same browser
 - ~~Transfer of files (drag-n-drop in the browser, link to the file appears in the message window)~~
+
+
+Updates:
+To generate private key:
+openssl genrsa -out server.key 2048
+
+To generate certificate:
+openssl req -new -x509 -key server.key -out server.pem -days 3650
