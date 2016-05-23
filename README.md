@@ -67,8 +67,11 @@ Please check http://jefjabs.com:8080 for the sample implementation
 
 
 **Updates**
+- OAuth2 Google Authentication
+- Real Time Notifications
+- SSL Integration
 
-**To generate private key**
+**To generate private key and certificate for Golang-SSL integration**
 ```
 openssl genrsa -out server.key 2048
 ```
