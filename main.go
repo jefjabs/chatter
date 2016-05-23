@@ -17,6 +17,6 @@ func main() {
 	r.HandleFunc("/updates/{key}", UpdatesHandler).Name("key")
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
 	http.Handle("/", r)
-	fmt.Println("Listening on localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("Listening on localhost https")
+	http.ListenAndServeTLS(":443", "server.pem", "server.key", nil)
 }

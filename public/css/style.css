@@ -193,8 +193,8 @@ body {
 }
 .container .right .top {
   width: 100%;
-  height: 47px;
-  padding: 15px 29px;
+  height: 50px;
+  padding: 15px 15px;
   background-color: #eceff1;
 }
 .container .right .top span {
