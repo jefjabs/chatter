@@ -186,6 +186,6 @@ func UpdatesHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		db.Close()
 
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 	}
 }
