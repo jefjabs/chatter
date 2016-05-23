@@ -34,7 +34,7 @@
                     <div class="top">
                         <div style="float:left">
                             <div style="margin:-5px 10px 0px 0px;" ng-show="!isSignedIn" class="g-signin2" data-height="30"  data-onsuccess="onSignIn"></div>
-                            <button ng-show="isSignedIn" ng-click="signOut" style="height:30px;margin:-5px 10px 0px 0px;">SignOut</button>
+                            <button ng-show="isSignedIn" ng-click="signOut()" style="height:30px;margin:-5px 10px 0px 0px;">SignOut</button>
                         </div>
                         <span>From: <span class="name">{{user}}</span></span> &nbsp;
                         <span>To: <span class="name">{{receiver}}</span></span>
